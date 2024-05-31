@@ -1,4 +1,4 @@
-from Game import Game
+from includes.Game import Game
 
 class Blackjack(Game):
     def __init__(self):

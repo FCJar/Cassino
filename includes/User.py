@@ -1,4 +1,4 @@
-from Player import Player
+from includes.Player import Player
 
 class User(Player):
     def __init__(self,name,login,password):
