@@ -1,29 +1,24 @@
-from includes.Player import Player
+from .deck import Deck
 
-class Dealer(Player):
+class Dealer:
+    def __init__(self):
+        self.deck = Deck()
+        self.hand = []
 
-    def __init__(self,login,senha):
-        self.banco=0
-        self.login=login
-        self.senha=senha
-        self.ganhos=0
-        self.perdas=0
+    def shuffle_deck(self):
+        self.deck.shuffle()
 
-    def ad_score(self,i):
-        self.banco=i
-        self.ganhos=i
+    def deal_card(self):
+        return self.deck.deal_card()
 
-    def bet(self,i):
-        self.banco-=i
-        self.perdas=i
-        return(i)
+    def deal_hand(self, num_cards):
+        return [self.deal_card() for _ in range(num_cards)]
 
-    def remove_score(self,i):
-        self.banco-=i
-        self.perdas=i
-        return(i)
-    
-    def profit(self):
-        aux=0
-        aux=(self.ganhos-self.perdas)
-        return(aux)
+    def add_card_to_hand(self, card):
+        self.hand.append(card)
+
+    def clear_hand(self):
+        self.hand = []
+
+    def __str__(self):
+        return f"Dealer's hand: {', '.join(str(card) for card in self.hand)}"
