@@ -41,5 +41,7 @@ class Blackjack(Game):
         font = pygame.font.Font(None, 36)
         player_text = font.render(str(self.player), True, colors.BLACK_COLOR)
         dealer_text = font.render(str(self.dealer), True, colors.BLACK_COLOR)
+        deck_text = font.render(str(self.dealer.deck), True, colors.BLACK_COLOR)
         self.screen.blit(player_text, (self.screen_width // 2 - player_text.get_width() // 2, self.screen_height // 2 - 50))
         self.screen.blit(dealer_text, (self.screen_width // 2 - dealer_text.get_width() // 2, self.screen_height // 2 + 50))
+        self.screen.blit(deck_text, (self.screen_width // 2 - dealer_text.get_width() // 2, self.screen_height // 2 + 100))
