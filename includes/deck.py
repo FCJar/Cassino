@@ -6,6 +6,9 @@ class Deck:
         self.cards = self.create_deck()
         self.shuffle()
 
+    def reset_deck(self):
+        self.cards = []
+    
     def create_deck(self):
         deck = []
         for rank in range(1, 14):  # 1-13 para Ás a Rei

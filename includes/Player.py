@@ -23,6 +23,12 @@ class Player:
 
     def clear_hand(self):
         self.hand = []
-
+    
+    def get_score(self):
+        score = 0
+        for card in self.hand:
+            score += card.get_value()
+        return score
+    
     def __str__(self):
         return f"{self.name} has {self.chips} chips and hand: {', '.join(str(card) for card in self.hand)}"

@@ -5,6 +5,10 @@ class Dealer:
         self.deck = Deck()
         self.hand = []
 
+    def create_deck(self):
+        self.deck.reset_deck()
+        self.deck.create_deck()
+
     def shuffle_deck(self):
         self.deck.shuffle()
 
@@ -19,6 +23,12 @@ class Dealer:
 
     def clear_hand(self):
         self.hand = []
+
+    def get_score(self):
+        score = 0
+        for card in self.hand:
+            score += card.get_value()
+        return score
 
     def __str__(self):
         return f"Dealer's hand: {', '.join(str(card) for card in self.hand)}"
