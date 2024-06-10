@@ -26,8 +26,14 @@ class Player:
     
     def get_score(self):
         score = 0
+        aces = 0
         for card in self.hand:
+            if card.get_rank() == 'Ace':
+                aces += 1
             score += card.get_value()
+            while score > 21 and aces > 0:
+                score -= 10
+                aces -= 1
         return score
     
     def __str__(self):
