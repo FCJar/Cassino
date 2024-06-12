@@ -2,8 +2,8 @@ import pygame
 import sys
 from .game import Game
 import includes.colors as colors
-from includes.player import Player
-from includes.dealer import Dealer
+from includes.Player import Player
+from includes.Dealer import Dealer
 
 class Blackjack(Game):
     def __init__(self, screen, screen_width, screen_height):

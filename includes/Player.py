@@ -35,6 +35,12 @@ class Player:
                 score -= 10
                 aces -= 1
         return score
+        
+    def get_chips(self):
+        return(self.chips)
+    
+    def get_name(self):
+        return(self.name)
     
     def __str__(self):
         return f"{self.name} has {self.chips} chips and hand: {', '.join(str(card) for card in self.hand)}"
