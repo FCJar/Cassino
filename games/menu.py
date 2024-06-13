@@ -2,6 +2,8 @@ import pygame
 import sys 
 import includes.colors as colors
 
+main_background=pygame.image.load("C:\\Users\\fcgam\\OneDrive\\Documentos\\GitHub\\Cassino\\main_background.jpg")
+
 
 class MainMenu:
     def __init__(self, screen, screen_width, screen_height):
@@ -29,14 +31,20 @@ class MainMenu:
                 elif event.key == pygame.K_2:
                     self.selection = "roulette"
                     self.running = False
+                elif event.key == pygame.K_3:
+                    pygame.quit()
+                    sys.exit()
 
     def draw(self):
         fonte_base = pygame.font.Font(None, 36)
         fonte_titulo = pygame.font.Font(None, 72)
         self.screen.fill(colors.WHITE_COLOR)
-        text = fonte_titulo.render("Bem Vindo ao cassino", True, colors.BLUE_COLOR)
+        self.screen.blit(main_background,(0,0))
+        text = fonte_titulo.render("Welcome to Cassino", True, colors.BLUE_COLOR)
         self.screen.blit(text,(self.screen_width//2 - text.get_width()//2, self.screen_height//2 - text.get_height()//2- 150))
-        text = fonte_base.render("Pressione 1 para jogar Blackjack", True, (0, 0, 0))
+        text = fonte_base.render("Press 1 to play Blackjack", True, colors.GREEN_COLOR)
         self.screen.blit(text, (self.screen_width//2 - text.get_width()//2, self.screen_height//2 - text.get_height()//2 + 50))
-        text = fonte_base.render("Pressione 2 para jogar Roleta", True, (0, 0, 0))
+        text = fonte_base.render("Press 2 to play lucky roulette", True, colors.GREEN_COLOR)
         self.screen.blit(text, (self.screen_width//2 - text.get_width()//2, self.screen_height//2 - text.get_height()//2 + 100))
+        text = fonte_base.render("Press 3 to exit",True,colors.GREEN_COLOR)
+        self.screen.blit(text,(self.screen_width//2 - text.get_width()//2, self.screen_height//2 - text.get_height()//2 + 150))

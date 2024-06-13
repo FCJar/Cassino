@@ -6,8 +6,8 @@ from games.roulette import Roulette
 
 def main():
     pygame.init()
-    screen_width = 1920
-    screen_height = 1080
+    screen_width = 900
+    screen_height = 600
     screen = pygame.display.set_mode((screen_width, screen_height))
     pygame.display.set_caption("Cassino")
 
@@ -17,6 +17,7 @@ def main():
         
         if menu.selection == "blackjack":
             game = Blackjack(screen, screen_width, screen_height)
+            
         elif menu.selection == "roulette":
             game = Roulette(screen, screen_width, screen_height)
         
