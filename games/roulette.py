@@ -3,12 +3,16 @@ from .game import Game
 import includes.colors as colors
 import random
 import sys
+import os
 from includes.Player import Player
 
 
-#pygame.display.set_caption('image')
-background=pygame.image.load("C:\\Users\\fcgam\\OneDrive\\Documentos\\GitHub\\Cassino\\roulete.jpg")
-background1=pygame.image.load("C:\\Users\\fcgam\\OneDrive\\Documentos\\GitHub\\Cassino\\roulete1.jpg")
+current_path = os.path.dirname(__file__)
+background_path = os.path.join(current_path, '..', 'assets', 'images', 'roulete.jpg')
+background1_path = os.path.join(current_path, '..', 'assets', 'images', 'roulete1.jpg')
+
+background=pygame.image.load(background_path)
+background1=pygame.image.load(background1_path)
 
 class Roulette(Game):
     def __init__(self, screen, screen_width, screen_height):
@@ -97,7 +101,7 @@ class Roulette(Game):
                 else:
                     self.Pl.lose(self.bet)
 
-            elif(self.color=="Black"):
+            elif(self.color=="Red"):
                 if((result==1) or (result==3) or (result==5) or (result==7) or (result==9) or (result==12) or (result==14) or (result==16)):
                     self.Pl.win(self.bet*2)
                 elif((result==18) or (result==19) or (result==21) or (result==23) or (result==25) or (result==27) or (result==30) or (result==32) or (result==34)):

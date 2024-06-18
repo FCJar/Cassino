@@ -1,8 +1,11 @@
 import pygame
 import sys 
+import os
 import includes.colors as colors
 
-main_background=pygame.image.load("C:\\Users\\fcgam\\OneDrive\\Documentos\\GitHub\\Cassino\\main_background.jpg")
+current_path = os.path.dirname(__file__)
+image_path = os.path.join(current_path, '..', 'assets', 'images', 'main_background.jpg')
+main_background=pygame.image.load(image_path)
 
 
 class MainMenu:
