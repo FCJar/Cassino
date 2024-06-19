@@ -15,6 +15,7 @@ background=pygame.image.load(background_path)
 background1=pygame.image.load(background1_path)
 
 class Roulette(Game):
+    #builder
     def __init__(self, screen, screen_width, screen_height):
         super().__init__(screen, screen_width, screen_height)
         self.bet = None
@@ -23,8 +24,10 @@ class Roulette(Game):
         self.roulette_numbers = list(range(37))  # 0-36
         self.start=False
         self.errorMsg=False
-        self.Pl=Player("Jose",1000)
-
+        self.Pl=Player('Jose',15000)
+        self.Pl.readData()
+    
+    #processing game input events
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -88,6 +91,7 @@ class Roulette(Game):
                 else:
                     print("invalid entry")
 
+    #spin the virtual roulette wheel and generate the game result
     def spin_roulette(self):
         if((self.bet==None or self.Pl.get_chips==None)):
             print=("Error msg")
@@ -118,11 +122,11 @@ class Roulette(Game):
         else:
             self.errorMsg=True
             
-    
-
+    #updating game status
     def update(self):
         pass
 
+    #draw the game interface
     def draw(self):
 
         self.screen.fill(colors.WHITE_COLOR)
@@ -130,23 +134,23 @@ class Roulette(Game):
         if(self.start==False or self.errorMsg==True):
             self.screen.blit(background,(0,0))
             font=pygame.font.Font(None, 60)
-            msg1 = font.render("::Welcome to lucky roulete::",True,colors.GOLD_COLOR)
+            msg1 = font.render("::Welcome to lucky roulete::",True,colors.BOARD_COLOR)
             self.screen.blit(msg1,(self.screen_width//2 - msg1.get_width()//2,self.screen_height//2 - msg1.get_height()-240))
 
             font=pygame.font.Font(None,40)
-            msg2 = font.render("::How to play::",True,colors.GREEN_COLOR)
+            msg2 = font.render("::How to play::",True,colors.BOARD_COLOR)
             self.screen.blit(msg2,(self.screen_width//2 - msg2.get_width()//2,self.screen_height//2 - msg2.get_height()+180))
             
             font=pygame.font.Font(None,24)
-            msg3= font.render("Press a number betwen 1 to 3 for chose the chips   ::   For (Start/Pause) the game press tab",True,colors.GREEN_COLOR)
+            msg3= font.render("Press a number betwen 1 to 3 for chose the chips   ::   For (Start/Pause) the game press tab",True,colors.BOARD_COLOR)
             self.screen.blit(msg3,(self.screen_width//2 - msg3.get_width()//2,self.screen_height//2 - msg3.get_height()+200))
             
             font=pygame.font.Font(None,24)
-            msg4 = font.render("Press the (backspace) button for spin   ::   For start the game press tab",True,colors.GREEN_COLOR)
+            msg4 = font.render("Press the (backspace) button for spin   ::   For start the game press tab",True,colors.BOARD_COLOR)
             self.screen.blit(msg4,(self.screen_width//2 - msg4.get_width()//2,self.screen_height//2 - msg4.get_height()+220))
 
             font=pygame.font.Font(None,24)
-            msg5 = font.render("Press the up and down arrows to chose a number(36 to 1)   ::   Press B or R for bet by colors(2 to 1)",True,colors.GREEN_COLOR)
+            msg5 = font.render("Press the up and down arrows to chose a number(36 to 1)   ::   Press B or R for bet by colors(2 to 1)",True,colors.BOARD_COLOR)
             self.screen.blit(msg5,(self.screen_width//2 - msg5.get_width()//2,self.screen_height//2 - msg5.get_height()+240))
             
             if self.errorMsg==True:
@@ -158,7 +162,7 @@ class Roulette(Game):
             self.screen.blit(background1,(0,0))
             font=pygame.font.Font(None, 40)
             auxtext=("Name:: " + self.Pl.get_name() + "       Chips:: " + str(self.Pl.get_chips()))
-            new_msg1 = font.render(auxtext,True,colors.BLUE_COLOR)
+            new_msg1 = font.render(auxtext,True,colors.BLACK_COLOR)
             self.screen.blit(new_msg1,(self.screen_width//2 - new_msg1.get_width()//2,self.screen_height//2 - new_msg1.get_height()-240))
             
             if(self.my_number!=None):

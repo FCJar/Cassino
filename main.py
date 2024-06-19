@@ -6,8 +6,8 @@ from games.roulette import Roulette
 
 def main():
     pygame.init()
-    screen_width = 900
-    screen_height = 600
+    screen_width = 1024
+    screen_height = 720
     screen = pygame.display.set_mode((screen_width, screen_height))
     pygame.display.set_caption("Cassino")
 

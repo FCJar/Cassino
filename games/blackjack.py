@@ -1,9 +1,14 @@
 import pygame
 import sys
+import os
 from .game import Game
 import includes.colors as colors
 from includes.Player import Player
 from includes.Dealer import Dealer
+
+current_path = os.path.dirname(__file__)
+background_path = os.path.join(current_path, '..', 'assets', 'images', 'blackjack.jpg')
+background=pygame.image.load(background_path)
 
 class Blackjack(Game):
     def __init__(self, screen, screen_width, screen_height):
@@ -83,16 +88,16 @@ class Blackjack(Game):
 
     def draw(self):
         font = pygame.font.Font(None, 36)
-        hand_score = font.render(f"hand score is {self.player.get_score()}",True, colors.BLACK_COLOR)
-        player_text = font.render(str(self.player), True, colors.BLACK_COLOR)
-        dealer_text = font.render(str(self.dealer), True, colors.BLACK_COLOR)
-        deck_text = font.render(str(self.dealer.deck), True, colors.BLACK_COLOR)
-        bust_text = font.render(f"You busted, please restart", True, colors.BLACK_COLOR)
-        beting_text = font.render(f"Make your bet:", True, colors.BLACK_COLOR)
-        bet_text = font.render(f"Bet amount: {self.aposta}", True, colors.BLACK_COLOR)
-        dealer_score_text = font.render(f"Dealer score is{self.dealer.get_score()}", True, colors.BLACK_COLOR)
+        hand_score = font.render(f"hand score is {self.player.get_score()}",True, colors.BOARD_COLOR)
+        player_text = font.render(str(self.player), True, colors.BOARD_COLOR)
+        dealer_text = font.render(str(self.dealer), True, colors.BOARD_COLOR)
+        deck_text = font.render(str(self.dealer.deck), True, colors.BOARD_COLOR)
+        bust_text = font.render(f"You busted, please restart", True, colors.BOARD_COLOR)
+        beting_text = font.render(f"Make your bet:", True, colors.BOARD_COLOR)
+        bet_text = font.render(f"Bet amount: {self.aposta}", True, colors.BOARD_COLOR)
+        dealer_score_text = font.render(f"Dealer score is{self.dealer.get_score()}", True, colors.BOARD_COLOR)
 
-        self.screen.fill(colors.BOARD_COLOR)
+        self.screen.blit(background,(0,0))
         self.screen.blit(player_text, (self.screen_width // 2 - player_text.get_width() // 2, self.screen_height // 2 - 50))
         self.screen.blit(dealer_text, (self.screen_width // 2 - dealer_text.get_width() // 2, self.screen_height // 2 + 50))
         self.screen.blit(deck_text, (self.screen_width // 2 - deck_text.get_width() // 2, self.screen_height // 2 + 100))
