@@ -69,6 +69,6 @@ class Player:
     def get_name(self):
         return(self.__name)
     
-    #show the cards in player hand 
+    #return the cards in player hand 
     def __str__(self):
         return f"{self.__name} has {self.__chips} chips and hand: {', '.join(str(card) for card in self.__hand)}"

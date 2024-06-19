@@ -1,9 +1,11 @@
 class Card:
+    #builder
     def __init__(self, code):
         self.code = code
         self.rank = self.get_rank()
         self.suit = self.get_suit()
 
+    #get the card rank
     def get_rank(self):
         rank_code = int(self.code[:2])
         if rank_code == 1:
@@ -19,6 +21,7 @@ class Card:
         else:
             raise ValueError("Invalid rank code")
 
+    #get the card suit
     def get_suit(self):
         suit_code = int(self.code[2])
         if suit_code == 1:
@@ -32,6 +35,7 @@ class Card:
         else:
             raise ValueError("Invalid suit code")
 
+    #get the card value
     def get_value(self):
         if self.rank in ['Jack', 'Queen', 'King']:
             return 10
@@ -40,5 +44,6 @@ class Card:
         else:
             return int(self.rank)
 
+    #return the cards value
     def __str__(self):
         return f"{self.rank} of {self.suit} ({self.code})"
