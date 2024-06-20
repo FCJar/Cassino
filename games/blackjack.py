@@ -29,6 +29,7 @@ class Blackjack(Game):
         self.load_card_images()
         self.make_bet()
     
+    #upload card images
     def load_card_images(self):
         self.card_images = {}
         card_width, card_height = 100, 144  # Defina o tamanho desejado das cartas aqui
