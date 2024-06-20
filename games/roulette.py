@@ -5,6 +5,7 @@ import random
 import sys
 import os
 from includes.Player import Player
+from assets.text_helpers import draw_text_with_background, draw_text_with_shadow
 
 
 current_path = os.path.dirname(__file__)
@@ -20,12 +21,14 @@ class Roulette(Game):
         super().__init__(screen, screen_width, screen_height)
         self.bet = None
         self.my_number = None
-        self.color=None
-        self.roulette_numbers = list(range(37))  # 0-36
-        self.start=False
-        self.errorMsg=False
-        self.Pl=Player('Jose',15000)
+        self.color = None
+        self.roulette_numbers = list(range(36))  # 0-34
+        self.start = False
+        self.errorMsg = False
+        self.Pl = Player('Jose',15000)
         self.Pl.readData()
+        self.last_digit = None
+        self.last_match = None
     
     #processing game input events
     def handle_events(self):
@@ -47,13 +50,16 @@ class Roulette(Game):
                         self.errorMsg=False
 
                 elif event.key == pygame.K_1:
-                        self.bet=5
+                    self.bet=100
             
                 elif event.key == pygame.K_2:
-                        self.bet=25
+                    self.bet=200
                 
                 elif event.key == pygame.K_3:
-                        self.bet=125
+                    self.bet=400
+                
+                elif event.key == pygame.K_4:
+                    self.bet=800
                 
                 elif event.key == pygame.K_b:
                     self.color="Black"
@@ -65,10 +71,10 @@ class Roulette(Game):
                 
                 elif event.key == pygame.K_UP:
                     if(self.my_number == None):
-                        self.my_number=0
+                        self.my_number=1
                         self.color=None
 
-                    elif(self.my_number<37 and self.start==True):
+                    elif(self.my_number<36 and self.start==True):
                         self.my_number+=1
                         self.color=None
 
@@ -95,29 +101,46 @@ class Roulette(Game):
     def spin_roulette(self):
         if((self.bet==None or self.Pl.get_chips==None)):
             print=("Error msg")
+
         elif(self.bet<self.Pl.get_chips()):
             result=random.choice(self.roulette_numbers)
+            self.last_digit=result
+
             if(self.color=="Black"):
                 if((result==2) or (result==4) or (result==6) or (result==8) or (result==10) or (result==11) or (result==13) or (result==15)):
                     self.Pl.win(self.bet*2)
+                    self.last_match=True
+
                 elif((result==17) or (result==20) or (result==22) or (result==24) or (result==26) or (result==28) or (result==29) or (result==33) or (result==35)):
                     self.Pl.win(self.bet*2)
+                    self.last_match=True
+
                 else:
                     self.Pl.lose(self.bet)
+                    self.last_match=False
 
             elif(self.color=="Red"):
                 if((result==1) or (result==3) or (result==5) or (result==7) or (result==9) or (result==12) or (result==14) or (result==16)):
                     self.Pl.win(self.bet*2)
+                    self.last_match=True
+
                 elif((result==18) or (result==19) or (result==21) or (result==23) or (result==25) or (result==27) or (result==30) or (result==32) or (result==34)):
                     self.Pl.win(self.bet*2)
+                    self.last_match=True
+
                 else:
                     self.Pl.lose(self.bet)
+                    self.last_match=False
 
-            elif((self.my_number>=0 and self.my_number<=36)):
+            elif((self.my_number>=0 and self.my_number<=34)):
                 if(self.my_number==result):
                     self.Pl.win(self.bet*8)
+                    self.last_match=True
+
                 else:
                     self.Pl.lose(self.bet)
+                    self.last_match=False
+
             self.Pl.saveData()
             self.Pl.readData()
         else:
@@ -126,7 +149,7 @@ class Roulette(Game):
     #updating game status
     def update(self):
         pass
-
+    
     #draw the game interface
     def draw(self):
 
@@ -134,56 +157,95 @@ class Roulette(Game):
 
         if(self.start==False or self.errorMsg==True):
             self.screen.blit(background,(0,0))
+
+            fonte_player = pygame.font.Font(None, 36)
+            player_info_position = (self.screen_width - 10, 10)
+            draw_text_with_background(self.screen,("Player name: " + self.Pl.get_name() + "    Chips: " + str(self.Pl.get_chips())), player_info_position, fonte_player, colors.BOARD_COLOR, colors.WHITE_COLOR, alignment='right')
+            
+
             font=pygame.font.Font(None, 60)
-            msg1 = font.render("::Welcome to lucky roulete::",True,colors.BOARD_COLOR)
-            self.screen.blit(msg1,(self.screen_width//2 - msg1.get_width()//2,self.screen_height//2 - msg1.get_height()-240))
+            draw_text_with_background(self.screen,"::Welcome to lucky roulete::", (self.screen_width // 2, self.screen_height // 2 - 150), font, colors.BLUE_COLOR, colors.GRAY_COLOR)
 
             font=pygame.font.Font(None,40)
-            msg2 = font.render("::How to play::",True,colors.BOARD_COLOR)
-            self.screen.blit(msg2,(self.screen_width//2 - msg2.get_width()//2,self.screen_height//2 - msg2.get_height()+180))
-            
-            font=pygame.font.Font(None,24)
-            msg3= font.render("Press a number betwen 1 to 3 for chose the chips   ::   For (Start/Pause) the game press tab",True,colors.BOARD_COLOR)
-            self.screen.blit(msg3,(self.screen_width//2 - msg3.get_width()//2,self.screen_height//2 - msg3.get_height()+200))
-            
-            font=pygame.font.Font(None,24)
-            msg4 = font.render("Press the (backspace) button for spin   ::   For start the game press tab",True,colors.BOARD_COLOR)
-            self.screen.blit(msg4,(self.screen_width//2 - msg4.get_width()//2,self.screen_height//2 - msg4.get_height()+220))
+            draw_text_with_background(self.screen,"::How to play::", (self.screen_width // 2, self.screen_height // 2 + 50), font, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
 
             font=pygame.font.Font(None,24)
-            msg5 = font.render("Press the up and down arrows to chose a number(36 to 1)   ::   Press B or R for bet by colors(2 to 1)",True,colors.BOARD_COLOR)
-            self.screen.blit(msg5,(self.screen_width//2 - msg5.get_width()//2,self.screen_height//2 - msg5.get_height()+240))
-            
+            draw_text_with_background(self.screen,"Press a number betwen 1 to 3 for chose the chips   ::   For (Start/Pause) the game press tab", (self.screen_width // 2, self.screen_height // 2 + 100), font, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
+            draw_text_with_background(self.screen,"Press the (backspace) button for spin   ::   For start the game press tab", (self.screen_width // 2, self.screen_height // 2 + 150), font, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
+            draw_text_with_background(self.screen,"Press the up and down arrows to chose a number(36 to 1)   ::   Press B or R for bet by colors(2 to 1)", (self.screen_width // 2, self.screen_height // 2 + 200), font, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
+
             if self.errorMsg==True:
                 font=pygame.font.Font(None,40)
                 erro_msg=font.render("You are bankrupt! Add more cash::",True,colors.RED_COLOR)
                 self.screen.blit(erro_msg,(self.screen_width//2 - erro_msg.get_width()//2,self.screen_height//2 - erro_msg.get_height()+140))
             
         elif(self.errorMsg==False and self.start==True):
-            self.screen.blit(background1,(0,0))
-            font=pygame.font.Font(None, 40)
-            auxtext=("Name:: " + self.Pl.get_name() + "       Chips:: " + str(self.Pl.get_chips()))
-            new_msg1 = font.render(auxtext,True,colors.BLACK_COLOR)
-            self.screen.blit(new_msg1,(self.screen_width//2 - new_msg1.get_width()//2,self.screen_height//2 - new_msg1.get_height()-240))
+
+            self.screen.fill(colors.BOARD_COLOR)
+            fonte_player = pygame.font.Font(None, 36)
+            player_info_position = (self.screen_width - 10, 10)
+            draw_text_with_background(self.screen,("Player name: " + self.Pl.get_name() + "    Chips: " + str(self.Pl.get_chips())), player_info_position, fonte_player, colors.BOARD_COLOR, colors.WHITE_COLOR, alignment='right')
             
-            if(self.my_number!=None):
-                font=pygame.font.Font(None,24)
-                auxtext1=("Number::    "+str(self.my_number))
-                new_msg1 = font.render(auxtext1,True,colors.BLACK_COLOR)
-                self.screen.blit(new_msg1,(self.screen_width//2 - new_msg1.get_width()//2,self.screen_height//2 - new_msg1.get_height()-220))
-            
-            if(self.color!=None):
-                font=pygame.font.Font(None,24)
-                auxtext2=("Color::    "+(self.color))
-                new_msg2 = None
-                if(self.color=="Black"):
-                    new_msg2 = font.render(auxtext2,True,colors.BLACK_COLOR)
-                else:
-                    new_msg2 = font.render(auxtext2,True,colors.RED_COLOR)
-                self.screen.blit(new_msg2,(self.screen_width//2 - new_msg2.get_width()//2,self.screen_height//2 - new_msg2.get_height()-220))
-            
+            roulette_image_path = os.path.join(current_path, '..', 'assets','roulette','roulette.png')
+            roulette_image = pygame.image.load(roulette_image_path)
+            roulette_image1 = pygame.transform.scale(roulette_image,(1020,480))
+            self.screen.blit(roulette_image1,(0,0) )
+        
+            if(self.last_digit!=None):
+                numeric_image_path = os.path.join(current_path,'..', 'assets','roulette',f'{self.last_digit}.jpeg')
+                numeric_image = pygame.image.load(numeric_image_path)
+                numeric_image_scale =  pygame.transform.scale(numeric_image,(100,100))
+                self.screen.blit(numeric_image_scale,(750,500))
+
+                
+            if(self.last_match!=None):
+                if(self.last_match):
+                    win_image_path = os.path.join(current_path,'..', 'assets','roulette','win.png')
+                    win_image = pygame.image.load(win_image_path)
+                    win_image_scale =  pygame.transform.scale(win_image,(200,99.5))
+                    self.screen.blit(win_image_scale,(500,500))
+
+                elif(self.last_match == False):
+                    win_image_path = os.path.join(current_path,'..', 'assets','roulette','fail.png')
+                    win_image = pygame.image.load(win_image_path)
+                    win_image_scale =  pygame.transform.scale(win_image,(200,99.5))
+                    self.screen.blit(win_image_scale,(500,500))
+
             if(self.bet!=None):
-                font=pygame.font.Font(None,24)
-                auxtext3 = ("Bet::    "+str(self.bet))
-                new_msg3 = font.render(auxtext3,True,colors.BLACK_COLOR)
-                self.screen.blit(new_msg3,(self.screen_width//2 - new_msg3.get_width()//2,self.screen_height//2 - new_msg3.get_height()-200))
+                if(self.bet==100):
+                    coin_image_path = os.path.join(current_path,'..', 'assets','roulette','coin.png')
+                    coin_image = pygame.image.load(coin_image_path)
+                    coin_image_scale = pygame.transform.scale(coin_image,(200,200))
+                    self.screen.blit(coin_image_scale,(50,500))
+
+                elif(self.bet==200):
+                    coin_image_path = os.path.join(current_path,'..', 'assets','roulette','coin.png')
+                    coin_image = pygame.image.load(coin_image_path)
+                    coin_image_scale = pygame.transform.scale(coin_image,(200,200))
+                    self.screen.blit(coin_image_scale,(50,500))
+                    self.screen.blit(coin_image_scale, (75,500))
+
+                elif(self.bet==400):
+                    coin_image_path = os.path.join(current_path,'..', 'assets','roulette','coin.png')
+                    coin_image = pygame.image.load(coin_image_path)
+                    coin_image_scale = pygame.transform.scale(coin_image,(200,200))
+                    self.screen.blit(coin_image_scale,(50,500))
+                    self.screen.blit(coin_image_scale, (75,500))
+                    self.screen.blit(coin_image_scale, (100,500))
+                    self.screen.blit(coin_image_scale,(125,500))
+
+                elif(self.bet==800):
+                    coin_image_path = os.path.join(current_path,'..', 'assets','roulette','coin.png')
+                    coin_image = pygame.image.load(coin_image_path)
+                    coin_image_scale = pygame.transform.scale(coin_image,(200,200))
+                    self.screen.blit(coin_image_scale,(50,500))
+                    self.screen.blit(coin_image_scale, (75,500))
+                    self.screen.blit(coin_image_scale, (100,500))
+                    self.screen.blit(coin_image_scale,(125,500))
+                    self.screen.blit(coin_image_scale,(150,500))
+                    self.screen.blit(coin_image_scale, (175,500))
+                    self.screen.blit(coin_image_scale, (200,500))
+                    self.screen.blit(coin_image_scale,(225,500))
+
+
+                     
