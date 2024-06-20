@@ -3,11 +3,11 @@ import sys
 import os
 import includes.colors as colors
 from includes.Player import Player
+from assets.text_helpers import draw_text_with_background, draw_text_with_shadow
 
 current_path = os.path.dirname(__file__)
 image_path = os.path.join(current_path, '..', 'assets', 'images', 'main_background.jpg')
-main_background=pygame.image.load(image_path)
-
+main_background = pygame.image.load(image_path)
 
 class MainMenu:
     def __init__(self, screen, screen_width, screen_height):
@@ -16,7 +16,7 @@ class MainMenu:
         self.screen_height = screen_height
         self.running = True
         self.selection = None
-        self.Pl=Player('Jose',15000)
+        self.Pl = Player('Jose', 15000)
         self.Pl.readData()
 
     def run(self):
@@ -44,16 +44,12 @@ class MainMenu:
     def draw(self):
         fonte_base = pygame.font.Font(None, 36)
         fonte_titulo = pygame.font.Font(None, 72)
-        fonte_player = pygame.font.Font(None,36)
+        fonte_player = pygame.font.Font(None, 36)
         self.screen.fill(colors.WHITE_COLOR)
-        self.screen.blit(main_background,(0,0))
-        text = fonte_titulo.render("Welcome to Cassino", True, colors.BLUE_COLOR)
-        self.screen.blit(text,(self.screen_width//2 - text.get_width()//2, self.screen_height//2 - text.get_height()//2- 150))
-        text=fonte_player.render(("Player name:: " + self.Pl.get_name() + "      Actual chips:: " + str(self.Pl.get_chips())),True,colors.BOARD_COLOR)
-        self.screen.blit(text,(self.screen_width//2 - text.get_width()//2, self.screen_height//2 - text.get_height()//2))
-        text = fonte_base.render("Press 1 to play Blackjack", True, colors.GREEN_COLOR)
-        self.screen.blit(text, (self.screen_width//2 - text.get_width()//2, self.screen_height//2 - text.get_height()//2 + 50))
-        text = fonte_base.render("Press 2 to play lucky roulette", True, colors.GREEN_COLOR)
-        self.screen.blit(text, (self.screen_width//2 - text.get_width()//2, self.screen_height//2 - text.get_height()//2 + 100))
-        text = fonte_base.render("Press 3 to exit",True,colors.GREEN_COLOR)
-        self.screen.blit(text,(self.screen_width//2 - text.get_width()//2, self.screen_height//2 - text.get_height()//2 + 150))
+        self.screen.blit(main_background, (0, 0))
+        player_info_position = (self.screen_width - 10, 10)
+        draw_text_with_background(self.screen,"Welcome to Cassino", (self.screen_width // 2, self.screen_height // 2 - 150), fonte_titulo, colors.BLUE_COLOR, colors.GRAY_COLOR)
+        draw_text_with_background(self.screen,("Player name: " + self.Pl.get_name() + "    Chips: " + str(self.Pl.get_chips())), player_info_position, fonte_player, colors.BOARD_COLOR, colors.WHITE_COLOR, alignment='right')
+        draw_text_with_background(self.screen,"Press 1 to play Blackjack", (self.screen_width // 2, self.screen_height // 2 + 50), fonte_base, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
+        draw_text_with_background(self.screen,"Press 2 to play lucky roulette", (self.screen_width // 2, self.screen_height // 2 + 100), fonte_base, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
+        draw_text_with_background(self.screen,"Press 3 to exit", (self.screen_width // 2, self.screen_height // 2 + 150), fonte_base, colors.DARK_RED_COLOR, colors.GRAY_COLOR)

@@ -8,7 +8,7 @@ class Player:
     def __init__(self, name, chips):
         self.__name = name
         self.__chips = chips
-        self.__hand = []
+        self.hand = []
 
     #place the bet
     def bet(self, amount):
@@ -29,17 +29,17 @@ class Player:
 
     #add a card to hand
     def add_card(self, card):
-        self.__hand.append(card)
+        self.hand.append(card)
 
     #clean the hand of cards
     def clear_hand(self):
-        self.__hand = []
+        self.hand = []
     
     #calculate the player score
     def get_score(self):
         score = 0
         aces = 0
-        for card in self.__hand:
+        for card in self.hand:
             if card.get_rank() == 'Ace':
                 aces += 1
             score += card.get_value()
@@ -71,4 +71,4 @@ class Player:
     
     #return the cards in player hand 
     def __str__(self):
-        return f"{self.__name} has {self.__chips} chips and hand: {', '.join(str(card) for card in self.__hand)}"
+        return f"{self.__name} has {self.__chips} chips and hand: {', '.join(str(card) for card in self.hand)}"
