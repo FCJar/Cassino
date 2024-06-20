@@ -141,7 +141,13 @@ class Blackjack(Game):
                     if event.key == pygame.K_d: # Double down
                         self.aposta = self.aposta * 2
                         self.player.add_card(self.dealer.deal_card())
-                        self.calculate_result()
+                        self.update()
+                        if self.game_bust:
+                            if event.key == pygame.K_RETURN and self.game_bust: # Reset after bust
+                                self.game_bust = False
+                                self.player.lose(self.aposta)
+                                self.make_bet()
+                        else: self.calculate_result()
     
     #updating game status
     def update(self):
