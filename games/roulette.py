@@ -170,9 +170,9 @@ class Roulette(Game):
             draw_text_with_background(self.screen,"::How to play::", (self.screen_width // 2, self.screen_height // 2 + 50), font, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
 
             font=pygame.font.Font(None,24)
-            draw_text_with_background(self.screen,"Press a number betwen 1 to 3 for chose the chips   ::   For (Start/Pause) the game press tab", (self.screen_width // 2, self.screen_height // 2 + 100), font, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
-            draw_text_with_background(self.screen,"Press the (backspace) button for spin   ::   For start the game press tab", (self.screen_width // 2, self.screen_height // 2 + 150), font, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
-            draw_text_with_background(self.screen,"Press the up and down arrows to chose a number(36 to 1)   ::   Press B or R for bet by colors(2 to 1)", (self.screen_width // 2, self.screen_height // 2 + 200), font, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
+            draw_text_with_background(self.screen,"Press a number betwen 1 to 3 to choose chip amount   ::   To (Start/Pause) the game press tab", (self.screen_width // 2, self.screen_height // 2 + 100), font, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
+            draw_text_with_background(self.screen,"Press (backspace) to spin   ::   To start the game press tab", (self.screen_width // 2, self.screen_height // 2 + 150), font, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
+            draw_text_with_background(self.screen,"Press the up and down arrows to choose a number(36 to 1)   ::   Press B or R to bet by colors(2 to 1)", (self.screen_width // 2, self.screen_height // 2 + 200), font, colors.DARK_RED_COLOR, colors.GRAY_COLOR)
 
             if self.errorMsg==True:
                 font=pygame.font.Font(None,40)
