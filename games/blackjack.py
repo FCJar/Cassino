@@ -105,7 +105,7 @@ class Blackjack(Game):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE: # Return to main menu
                     self.running = False
-                elif self.show_result:
+                elif self.show_result and not self.game_bust:
                     if event.key == pygame.K_RETURN: # Start game
                         self.make_bet()
                         self.show_result = False
@@ -134,7 +134,8 @@ class Blackjack(Game):
                     if event.key == pygame.K_d: # Double down
                         self.aposta = self.aposta * 2
                         self.player.add_card(self.dealer.deal_card())
-                        self.calculate_result()
+                        if not self.game_bust:
+                            self.calculate_result()
     
     #updating game status
     def update(self):
