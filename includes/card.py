@@ -4,6 +4,7 @@ class Card:
         self.code = code
         self.rank = self.get_rank()
         self.suit = self.get_suit()
+        self.hidden = False
 
     #get the card rank
     def get_rank(self):
@@ -47,3 +48,9 @@ class Card:
     #return the cards value
     def __str__(self):
         return f"{self.rank} of {self.suit} ({self.code})"
+
+    def hide(self):
+        self.hidden = True
+    
+    def reveal(self):
+        self.hidden = False
