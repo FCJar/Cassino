@@ -190,7 +190,18 @@ class Roulette(Game):
             roulette_image = pygame.image.load(roulette_image_path)
             roulette_image1 = pygame.transform.scale(roulette_image,(1020,480))
             self.screen.blit(roulette_image1,(0,0) )
-        
+
+            if(self.my_number!=None):
+                fonte_numeric =pygame.font.Font(None, 36)
+                numeric_info_position = ((10, 10))
+                draw_text_with_background(self.screen,str(self.my_number),numeric_info_position, fonte_numeric, colors.BOARD_COLOR, colors.WHITE_COLOR, alignment='left')
+            
+            if(self.color!=None):
+                fonte_color =pygame.font.Font(None, 36)
+                color_info_position = ((10, 10))
+                draw_text_with_background(self.screen,self.color,color_info_position, fonte_color, colors.BOARD_COLOR, colors.WHITE_COLOR, alignment='left')
+            
+
             if(self.last_digit!=None):
                 numeric_image_path = os.path.join(current_path,'..', 'assets','roulette',f'{self.last_digit}.jpeg')
                 numeric_image = pygame.image.load(numeric_image_path)
