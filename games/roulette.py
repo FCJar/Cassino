@@ -118,7 +118,8 @@ class Roulette(Game):
                     self.Pl.win(self.bet*8)
                 else:
                     self.Pl.lose(self.bet)
-            
+            self.Pl.saveData()
+            self.Pl.readData()
         else:
             self.errorMsg=True
             

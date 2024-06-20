@@ -10,6 +10,7 @@ image_path = os.path.join(current_path, '..', 'assets', 'images', 'main_backgrou
 main_background = pygame.image.load(image_path)
 
 class MainMenu:
+    #builder
     def __init__(self, screen, screen_width, screen_height):
         self.screen = screen
         self.screen_width = screen_width
@@ -19,12 +20,14 @@ class MainMenu:
         self.Pl = Player('Jose', 15000)
         self.Pl.readData()
 
+    #draw the interface and procesing the events
     def run(self):
         while self.running:
             self.handle_events()
             self.draw()
             pygame.display.flip()
-
+    
+    #procesing the events and inputs
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -41,6 +44,7 @@ class MainMenu:
                     pygame.quit()
                     sys.exit()
 
+    #draw the interface
     def draw(self):
         fonte_base = pygame.font.Font(None, 36)
         fonte_titulo = pygame.font.Font(None, 72)

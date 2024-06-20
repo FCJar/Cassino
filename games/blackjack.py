@@ -12,9 +12,11 @@ background_path = os.path.join(current_path, '..', 'assets', 'images', 'blackjac
 background=pygame.image.load(background_path)
 
 class Blackjack(Game):
+    #builder
     def __init__(self, screen, screen_width, screen_height):
         super().__init__(screen, screen_width, screen_height)
-        self.player = Player("Player", 1000)  
+        self.player = Player("Player", 1000)
+        self.player.readData()  
         self.dealer = Dealer()
         self.game_running = False
         self.game_bust = False
@@ -38,6 +40,7 @@ class Blackjack(Game):
                     print(f"Failed to load image {image_path}: {e}")
 
 
+    # distribute the initial cards
     def deal_initial_cards(self):
         self.dealer.create_deck()
         self.player.add_card(self.dealer.deal_card())
@@ -45,6 +48,7 @@ class Blackjack(Game):
         self.dealer.add_card_to_hand(self.dealer.deal_card())
         self.dealer.add_card_to_hand(self.dealer.deal_card())
 
+    #  calculate the game result
     def calculate_result(self):
         while self.dealer.get_score() < 17:
             self.dealer.add_card_to_hand(self.dealer.deal_card())
@@ -56,14 +60,18 @@ class Blackjack(Game):
             self.player.lose(self.aposta)
         self.make_bet()
 
+    # bet a value in the game 
     def make_bet(self):
         self.betting = True
         self.aposta = 0
         self.player.clear_hand()
         self.dealer.clear_hand()
 
+    #processing game input events
     def handle_events(self):
         for event in pygame.event.get():
+            self.player.saveData()
+            self.player.readData()
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
@@ -99,11 +107,14 @@ class Blackjack(Game):
                 elif event.key == pygame.K_RETURN: # Start game
                     self.make_bet()
                     self.game_running = True
-
+    
+    #updating game status
     def update(self):
         if self.player.get_score() > 21:
             self.game_bust = True
 
+
+    #draw the game interface
     def draw(self):
         self.screen.blit(background, (0, 0))
         font = pygame.font.Font(None, 36)
