@@ -67,25 +67,31 @@ class Blackjack(Game):
         pygame.display.flip()
 
         next_card_time = pygame.time.get_ticks() + 2000  # Define o momento para a próxima carta
-        while self.dealer.get_score() < 17:
-            if pygame.time.get_ticks() >= next_card_time:
-                new_card = self.dealer.deal_card()
-                self.dealer.add_card_to_hand(new_card)
-                self.draw()  # Atualiza a interface para mostrar a nova carta
-                pygame.display.flip()
-                next_card_time = pygame.time.get_ticks() + 2000
-
-        if self.dealer.get_score() > 21:
-            self.player.win(self.aposta)
-            self.result = 'Win' 
-        elif self.player.get_score() > self.dealer.get_score():
-            self.player.win(self.aposta)
-            self.result = 'Win'
-        elif self.player.get_score() < self.dealer.get_score():
+        if self.game_bust:
             self.player.lose(self.aposta)
             self.result = 'Lose'
-        self.show_dealer_score = False
-        self.show_result = True
+            self.show_dealer_score = False
+            self.show_result = True
+        else:
+            while self.dealer.get_score() < 17:
+                if pygame.time.get_ticks() >= next_card_time:
+                    new_card = self.dealer.deal_card()
+                    self.dealer.add_card_to_hand(new_card)
+                    self.draw()  # Atualiza a interface para mostrar a nova carta
+                    pygame.display.flip()
+                    next_card_time = pygame.time.get_ticks() + 2000
+
+            if self.dealer.get_score() > 21:
+                self.player.win(self.aposta)
+                self.result = 'Win' 
+            elif self.player.get_score() > self.dealer.get_score():
+                self.player.win(self.aposta)
+                self.result = 'Win'
+            elif self.player.get_score() < self.dealer.get_score():
+                self.player.lose(self.aposta)
+                self.result = 'Lose'
+            self.show_dealer_score = False
+            self.show_result = True
 
     # bet a value in the game 
     def make_bet(self):
@@ -134,8 +140,7 @@ class Blackjack(Game):
                     if event.key == pygame.K_d: # Double down
                         self.aposta = self.aposta * 2
                         self.player.add_card(self.dealer.deal_card())
-                        if not self.game_bust:
-                            self.calculate_result()
+                        self.calculate_result()
     
     #updating game status
     def update(self):
